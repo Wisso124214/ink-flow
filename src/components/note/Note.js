@@ -1,10 +1,10 @@
 import './Note.css';
 
-export default function Note({ data, type }) {
+export default function Note({ data, type, onClick }) {
   return (
-    <div className={`note note-${type}`}>
-      <div className={`note-title note-title-${type}`}> {data.title} </div>
-      {type !== 'titles' ? (<div className={`note-content note-content-${type}`}> {data.content} </div>) : null}
+    <div className={`note note-${type}`} onClick={onClick}>
+      <div className={`note-title note-title-${type}`}> {data.title ? data.title : `(${data.date})`} </div>
+      {type !== 'titles' ? (<div className={`note-content note-content-${type}`}> {data.content ? data.content : '(none)'} </div>) : null}
 
       {type === 'titles' ? (
         <div className="note-details">

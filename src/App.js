@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Header from './components/header/Header';
 import ListNotes from './components/listNotes/ListNotes';
+import PopUpNote from './components/popUpNote/PopUpNote';
 
 /**
  * 
@@ -13,16 +14,25 @@ import ListNotes from './components/listNotes/ListNotes';
 
 function App() {
   const [type, setType] = React.useState('default');
-  const allTypes = {
-    default: 'square',
-    titles: 'titles',
-    all: 'all',
-  }
+  const [showPopUp, setShowPopUp] = React.useState(false);
+  const [selectedNote, setSelectedNote] = React.useState(null);
+
+  const allTypes = [
+    'square',
+    'titles',
+    'all',
+  ]
+
+  React.useEffect(() => {
+    console.log(selectedNote, showPopUp);
+  }, [selectedNote, showPopUp]);
 
   return (
     <div className="app">
       <Header setType={setType} allTypes={allTypes} type={type} />
-      <ListNotes type={type} />
+      <ListNotes type={type} setSelectedNote={setSelectedNote} setShowPopUp={setShowPopUp} />
+      <PopUpNote showPopUp={showPopUp} setShowPopUp={setShowPopUp} selectedNote={selectedNote} />
+            
     </div>
   );
 }

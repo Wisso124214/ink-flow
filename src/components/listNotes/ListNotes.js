@@ -125,10 +125,18 @@ const notesData = [
     }, 
   ]
 
-export default function ListNotes({ type = 'default' }) {
+export default function ListNotes({ type = 'default', setSelectedNote, setShowPopUp }) {
   return (
     <div className={`list-notes list-notes-${type}`}>
-      {notesData.map((note) => (<Note data={note} type={type === 'default' ? 'square' : type} />))}
+      {notesData.map((note) => (
+        <Note 
+          data={note} 
+          onClick={() => {
+            setSelectedNote(note);
+            setShowPopUp(true);
+          }}
+          type={type === 'default' ? 'square' : type} 
+          />))}
     </div>
   );
 }

@@ -16,10 +16,8 @@ export default function Header(children) {
             value={children.type}
             onChange={(e) => children.setType(e.target.value)}
           >
-            {Object.entries(children.allTypes).map(([key, value]) => (
-              <option key={key} value={key}>
-                {value.charAt(0).toUpperCase() + value.slice(1)}
-              </option>
+            {children.allTypes.map((value) => (
+              <option className="types-note-option" key={value} value={value}> {value} </option>
             ))}
           </select>
         </div>

@@ -55,3 +55,16 @@
 .types-note-dropdown {
   margin-top: -1rem;
 }
+
+.types-note-select {
+  text-transform: capitalize;
+  padding: 0.3rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--contrasting-light-color);
+  /* appearance: none; */     /* To hide the arrow */
+}
+
+.types-note-select:focus {
+  outline: none;
+}
