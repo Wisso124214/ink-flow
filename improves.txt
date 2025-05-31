@@ -1,0 +1,29 @@
+  
+  - Session
+
+
+FRONT END
+
+ ✔ Buttons on header:
+    - Option 
+    ✔ Config (without function)
+    ✔ User (without function)
+
+  - Dropdown to change the types
+
+
+QUESTIONS
+
+  - Change the ammo of cols and adjust the notes? 
+  - Waterfall notes? (like accordion)
+
+
+DISENGAGE
+
+  - Add babel resolver to the project
+  - Use babel resolver to assets
+
+  - Move assets to public or fix the imports (Header.js)
+  - Delete import './logo...' from Header (must import from assets folder)
+
+  
