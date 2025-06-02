@@ -20,10 +20,13 @@ QUESTIONS
 
 DISENGAGE
 
-  - Add babel resolver to the project
-  - Use babel resolver to assets
 
-  - Move assets to public or fix the imports (Header.js)
-  - Delete import './logo...' from Header (must import from assets folder)
+
+
+
+✔✔ Add babel resolver to the project
+✔✔ Use babel resolver to assets
+✔✔ Move assets to public or fix the imports (Header.js)
+✔✔ Delete import './logo...' from Header (must import from assets folder)
 
   

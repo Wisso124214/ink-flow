@@ -125,12 +125,14 @@ const notesData = [
     }, 
   ]
 
-export default function ListNotes({ type = 'default', setSelectedNote, setShowPopUp }) {
+export default function ListNotes({ type = 'default', setSelectedNote, setShowPopUp, hyphenText }) {
   return (
     <div className={`list-notes list-notes-${type}`}>
-      {notesData.map((note) => (
+      {notesData.map((note, index) => (
         <Note 
-          data={note} 
+          key={index}
+          data={note}
+          hyphenText={hyphenText}
           onClick={() => {
             setSelectedNote(note);
             setShowPopUp(true);

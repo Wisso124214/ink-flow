@@ -1,10 +1,14 @@
 import './Note.css';
 
-export default function Note({ data, type, onClick }) {
+export default function Note({ data, type, onClick, hyphenText }) {
+  const charactersToHyphenate = 12;
+
   return (
     <div className={`note note-${type}`} onClick={onClick}>
       <div className={`note-title note-title-${type}`}> {data.title ? data.title : `(${data.date})`} </div>
-      {type !== 'titles' ? (<div className={`note-content note-content-${type}`}> {data.content ? data.content : '(none)'} </div>) : null}
+      {type !== 'titles' ? (
+        <div className={`note-content note-content-${type}`} dangerouslySetInnerHTML={{ __html: hyphenText(data.content, charactersToHyphenate).replace(/\n/g, '<br/>') }} /> 
+      ) : null}
 
       {type === 'titles' ? (
         <div className="note-details">

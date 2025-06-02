@@ -9,6 +9,7 @@
   padding: 2rem;
   padding-top: 1.5rem;
   height: max-content;
+  user-select: none;
 }
 
 .note-square {
@@ -40,6 +41,11 @@
   -webkit-line-clamp: 5; /* Number of lines to show */
   -webkit-box-orient: vertical;
 }
+
+/* .note-content-all {
+  overflow: hidden;
+  text-overflow: ellipsis;
+} */
 
 .note-title-titles {
   margin-bottom: 2rem;
