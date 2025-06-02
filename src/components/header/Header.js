@@ -1,6 +1,5 @@
 import './Header.css';
-// import logo from '@public/assets/logo-bg.jpg';
-import logo from '../../assets/logo-bg.jpg';
+import logo from '@assets/logo-bg.jpg';
 
 export default function Header(children) {
   return (
