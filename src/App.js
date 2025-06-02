@@ -23,10 +23,6 @@ function App() {
     'all',
   ]
 
-  React.useEffect(() => {
-    console.log(selectedNote, showPopUp);
-  }, [selectedNote, showPopUp]);
-
   return (
     <div className="app">
       <Header setType={setType} allTypes={allTypes} type={type} />

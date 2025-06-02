@@ -3,9 +3,12 @@ import './PopUpNote.css';
 
 export default function PopUpNote({ showPopUp, setShowPopUp, selectedNote }) {
 
-  const [characterCount, setCharacterCount] = React.useState(selectedNote ? selectedNote.content.length : 0);
-
+  const [characterCount, setCharacterCount] = React.useState(0);
   const maxCharacters = 1000;
+
+  React.useEffect(() => {
+    setCharacterCount(selectedNote ? selectedNote.content.length : 0);
+  }, [selectedNote]);
 
   return (
     showPopUp && selectedNote && (
@@ -14,21 +17,23 @@ export default function PopUpNote({ showPopUp, setShowPopUp, selectedNote }) {
           <textarea 
             className='content-title'
             placeholder='Title of your note...'
+            defaultValue={selectedNote.title}
             maxLength={100}
             onChange={(e)=>{
               selectedNote.title = e.target.value;
             }} 
-            >{selectedNote.title}</textarea>
+            />
           <textarea
             className='content-text' 
             placeholder='Write your note here...'
             autoFocus
+            defaultValue={selectedNote.content}
             onChange={(e)=>{
               setCharacterCount(e.target.value.length);
               selectedNote.content = e.target.value;
             }} 
             maxLength={maxCharacters}
-            >{selectedNote.content}</textarea>
+            />
           <div className='character-count'>{characterCount} / {maxCharacters}</div>
           <div className='note-details'>
             <span>{selectedNote.date}</span>
