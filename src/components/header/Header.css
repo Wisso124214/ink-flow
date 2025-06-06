@@ -7,7 +7,7 @@
   align-items: center;
   color: var(--text-color-dark);
   font-size: 40px;
-  box-shadow: 0 2px 4px var(--contrasting-light-color);
+  box-shadow: 0 2px 4px var(--secondary-color);
   height: 40px;
   width: 100vw;
   z-index: 1000;
@@ -61,7 +61,7 @@
   padding: 0.3rem;
   border: none;
   border-radius: 0.5rem;
-  background-color: var(--contrasting-light-color);
+  background-color: var(--secondary-color);
   /* appearance: none; */     /* To hide the arrow */
 }
 

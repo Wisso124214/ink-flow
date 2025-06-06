@@ -4,18 +4,18 @@
 
 :root {
   --primary-color: #a46f56;
-  --secondary-color: #ca9546;
+  --secondary-color: #d8ece9;
+  --tertiary-color:#ca9546;
   --background-color: #3a3e38;
   --text-color-dark: #222;
   --text-color-light: #fff;
-  --contrasting-light-color: #d8ece9;
   background-color: var(--background-color);
 }
 
 * {
   font-family: 'Shantell Sans', 'Mali', cursive;
   scrollbar-width: thin;
-  scrollbar-color: var(--contrasting-light-color) transparent;
+  scrollbar-color: color-mix(in srgb, var(--primary-color) 80%, var(--background-color)) transparent;
 }
 
 body {
@@ -46,4 +46,15 @@ code {
 
 o {
   text-decoration: overline;
+}
+
+t {
+  after {
+    content: "  ";
+    display: inline-block;
+    width: 0.5em;
+    height: 0.1em;
+    background-color: var(--primary-color);
+    margin-left: 0.2em;
+  }
 }
