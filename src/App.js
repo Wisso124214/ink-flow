@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 import Header from './components/header/Header';
-import ListNotes from './components/listNotes/ListNotes';
-import PopUpNote from './components/popUpNote/PopUpNote';
+import Navigation from './components/navigation/Navigation';
+import { AppContext } from './AppContext';
 
 /**
  * 
@@ -14,19 +14,11 @@ import PopUpNote from './components/popUpNote/PopUpNote';
 
 function App() {
   const [type, setType] = React.useState('default');
-  const [showPopUp, setShowPopUp] = React.useState(false);
-  const [selectedNote, setSelectedNote] = React.useState(null);
 
-  const hyphenText = (text, chars) => {
-    let counter = 0;
+  let consumeContext = React.useContext(AppContext);
 
-    return text ? 
-      text.split('').map((element) => {
-        counter = element === ' ' ? 0 : counter + 1;
-        return counter % chars === 0 && counter !== 0 ? element + '-' : element;
-      }).join('')
-      : '(none)';
-  };
+  console.log('context:', consumeContext);
+
 
   const allTypes = [
     'square',
@@ -34,12 +26,16 @@ function App() {
     'all',
   ]
 
+  const pages = [
+    'ListNotes',
+    'Test',
+  ];
+
   return (
     <div className="app">
       <Header setType={setType} allTypes={allTypes} type={type} />
-      <ListNotes type={type} setSelectedNote={setSelectedNote} setShowPopUp={setShowPopUp} hyphenText={hyphenText} />
-      <PopUpNote showPopUp={showPopUp} setShowPopUp={setShowPopUp} selectedNote={selectedNote} hyphenText={hyphenText} />
-            
+      <Navigation pages={pages} currentPage={consumeContext.currentPage === 'default' ? 'ListNotes' : consumeContext.currentPage} />
+
     </div>
   );
 }

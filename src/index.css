@@ -9,13 +9,20 @@
   --background-color: #3a3e38;
   --text-color-dark: #222;
   --text-color-light: #fff;
-  background-color: var(--background-color);
+
+  --background-url-image: url('./assets/background-letters.png');
+  background:
+    linear-gradient(color-mix(in srgb, var(--background-color) 30%, transparent)),
+    var(--background-url-image) center/cover repeat,
+    var(--background-color);
+  background-size: 300px 300px;
+  z-index: 0;
 }
 
 * {
   font-family: 'Shantell Sans', 'Mali', cursive;
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--primary-color) 80%, var(--background-color)) transparent;
+  scrollbar-color: color-mix(in srgb, var(--secondary-color) 80%, var(--background-color)) transparent;
 }
 
 body {

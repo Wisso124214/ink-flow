@@ -7,7 +7,7 @@ export default function Note({ data, type, onClick, hyphenText }) {
     <div className={`note note-${type}`} onClick={onClick}>
       <div className={`note-title note-title-${type}`}> {data.title ? data.title : `(${data.date})`} </div>
       {type !== 'titles' ? (
-        <div className={`note-content note-content-${type}`} dangerouslySetInnerHTML={{ __html: hyphenText(data.content, charactersToHyphenate).replace(/\n/g, '<br/>') }} /> 
+        <div className={`note-content note-content-${type}`} dangerouslySetInnerHTML={{ __html: hyphenText(data.content, charactersToHyphenate).replace(/\n/g, '<br/>').replace(/ {2}/g, '&nbsp; ') }} />
       ) : null}
 
       {type === 'titles' ? (

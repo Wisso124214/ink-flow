@@ -1,6 +1,9 @@
 import React from 'react';
 import './ListNotes.css';
-import Note from '../note/Note';
+import Note from '@components/note/Note';
+import PopUpNote from '@components/popUpNote/PopUpNote';
+import { AppContext } from '@src/AppContext';
+
 
 const notesData = [
     {
@@ -125,21 +128,39 @@ const notesData = [
     }, 
   ]
 
-export default function ListNotes({ type = 'default', setSelectedNote, setShowPopUp, hyphenText }) {
+export default function ListNotes({ type = 'default' }) {
+
+  const [showPopUp, setShowPopUp] = React.useState(false);
+  const [selectedNote, setSelectedNote] = React.useState(null);
+
+  const hyphenText = (text, chars) => {
+    let counter = 0;
+
+    return text ? 
+      text.split('').map((element) => {
+        counter = element === ' ' ? 0 : counter + 1;
+        return counter % chars === 0 && counter !== 0 ? element + '-' : element;
+      }).join('')
+      : '(none)';
+  };
+
   return (
-    <div className={`list-notes list-notes-${type}`}>
-      {notesData.map((note, index) => (
-        <Note 
-          key={index}
-          data={note}
-          hyphenText={hyphenText}
-          onClick={() => {
-            setSelectedNote(note);
-            setShowPopUp(true);
-          }}
-          type={type === 'default' ? 'square' : type} 
-          />))}
-    </div>
+    <>
+      <div className={`list-notes list-notes-${type}`}>
+        {notesData.map((note, index) => (
+          <Note 
+            key={index}
+            data={note}
+            hyphenText={hyphenText}
+            onClick={() => {
+              setSelectedNote(note);
+              setShowPopUp(true);
+            }}
+            type={type === 'default' ? 'square' : type} 
+            />))}
+      </div>
+      <PopUpNote showPopUp={showPopUp} setShowPopUp={setShowPopUp} selectedNote={selectedNote} hyphenText={hyphenText} />
+    </>
   );
 }
 

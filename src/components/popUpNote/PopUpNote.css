@@ -101,7 +101,7 @@
   user-select: none;
 }
 
-.edit-text-buttons {
+.edit-text-buttons, .edit-buttons {
   display: flex;
   position: absolute;
   bottom: 1.5rem;
@@ -110,7 +110,7 @@
   user-select: none;
 }
 
-.edit-text-buttons svg {
+.edit-text-buttons svg, .edit-buttons svg {
   width: 1.1rem;
   height: 1.1rem;
   fill: var(--text-color-light);
