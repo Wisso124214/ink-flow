@@ -128,7 +128,10 @@ const notesData = [
     }, 
   ]
 
-export default function ListNotes({ type = 'default' }) {
+export default function ListNotes(children) {
+
+  let consumeContext = React.useContext(AppContext);
+  const { setType, type } = consumeContext;
 
   const [showPopUp, setShowPopUp] = React.useState(false);
   const [selectedNote, setSelectedNote] = React.useState(null);
@@ -163,4 +166,3 @@ export default function ListNotes({ type = 'default' }) {
     </>
   );
 }
-

@@ -13,12 +13,8 @@ import { AppContext } from './AppContext';
  */
 
 function App() {
-  const [type, setType] = React.useState('default');
-
   let consumeContext = React.useContext(AppContext);
-
-  console.log('context:', consumeContext);
-
+  const { setType, type } = consumeContext;
 
   const allTypes = [
     'square',

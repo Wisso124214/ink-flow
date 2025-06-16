@@ -45,6 +45,14 @@
 .header-avatar {
   height: 100%;
   width: 40px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon-avatar {
+  height: 100%;
+  width: 100%;
 }
 
 .header-gear {
@@ -67,4 +75,48 @@
 
 .types-note-select:focus {
   outline: none;
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  min-width: 250px;
+  top: 100%;
+  padding: 0.5rem 0;
+  background-color: color-mix(in srgb, var(--primary-color) 90%, transparent);
+  border-radius: 0.5rem;
+  border: 2px solid var(--secondary-color); 
+  box-shadow: 0 0 10px 1px var(--background-color);
+}
+
+.menu-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.5rem;
+  color: var(--text-color-dark);
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 0.7rem;
+  color: var(--text-color-dark);
+  cursor: pointer;  
+  margin: 0 0.7rem;
+}
+
+.menu-item:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 85%, white);
+  border-radius: 0.5rem;
+}
+
+.menu-item svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: var(--text-color-dark);
+  
+  stroke-width: .5;
+  stroke: var(--text-color-dark);
 }
