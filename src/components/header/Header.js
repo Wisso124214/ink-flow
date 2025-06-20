@@ -3,13 +3,14 @@ import logo from '@assets/logo-bg.jpg';
 import React from 'react';
 import axios from 'axios';
 import config from '@src/config/config.js';
+import { getInfo, fetchUserInfo, getUserInfo } from '@src/utils/Utils.js';
 
 const { BACKEND_URL } = config;
 
 export default function Header(children) {
 
-  const [username, setUsername] = React.useState(localStorage.getItem('username') || '');
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [username, setUsername] = React.useState(localStorage.getItem('username') || '');
   const dataMenu = [
     {
       title: 'Log out',
@@ -30,34 +31,19 @@ export default function Header(children) {
         </svg>
       ),
       action: async () => {
-        let infoUser = JSON.parse(localStorage.getItem('infoUser') || '{}');
-        
-        if (!infoUser || !infoUser.id_user) {
-          fetchUserInfo();
-          infoUser = JSON.parse(localStorage.getItem('infoUser') || '{}');
-        }
-        
-        if (infoUser && infoUser.id_user) {
-          console.log('Logging out user:', infoUser.id_user);
+        const infoUser = await getUserInfo(username);
 
+        if (infoUser && infoUser.id_user) {
           await axios.post(`${BACKEND_URL}/logout`, {
             id_user: infoUser.id_user || '',
           })
           .then(async (response) => {
-            let info = localStorage.getItem('info');
-            if (!info) {
-              info = await axios.get(`${BACKEND_URL}/info`)
-              .then((res) => res.data)
-              .catch((err) => {
-                console.error('Error fetching info:', err);
-                return {};
-              });
+            const info = await getInfo();
 
-              if (info) {
-                window.location = info.FRONTEND_URL;
-              } else {
-                console.error('No info found after logout');
-              }
+            if (info) {
+              window.location = info.FRONTEND_URL;
+            } else {
+              console.error('No info found after logout');
             }
           })
           .catch((error) => {
@@ -78,29 +64,14 @@ export default function Header(children) {
     if (!username || (usernameParam && username !== usernameParam)) {
       setUsername(usernameParam);
       localStorage.setItem('username', usernameParam);
-      window.location.href = `${window.location.origin}/`;
+      window.location = `${window.location.origin}/`;
     }
 
-    fetchUserInfo();
-  }, []);
+    if (usernameParam && username === usernameParam)
+      window.location = `${window.location.origin}/`;
 
-  const fetchUserInfo = async () => {
-    await axios.post(`${BACKEND_URL}/get-info-user`, {
-      username,
-    })
-    .then((response) => {
-      if (response.data.username) {
-        localStorage.setItem('infoUser', JSON.stringify(response.data));
-      }
-    })
-    .catch((error) => {
-      console.error('Error fetching user info:', error);
-      // if (error.response && error.response.status === 401) {
-      //   // User is not authenticated, redirect to login
-      //   window.location.href = `${window.location.origin}/login`;
-      // }
-    })
-  }
+    fetchUserInfo(username);
+  }, []);
 
   return (
     <div className='header'>

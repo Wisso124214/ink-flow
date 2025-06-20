@@ -3,6 +3,7 @@ import './App.css';
 import Header from './components/header/Header';
 import Navigation from './components/navigation/Navigation';
 import { AppContext } from './AppContext';
+import Loader from './components/loader/Loader';
 
 /**
  * 
@@ -28,10 +29,10 @@ function App() {
   ];
 
   return (
-    <div className="app">
+    <div className="app" >
       <Header setType={setType} allTypes={allTypes} type={type} />
       <Navigation pages={pages} currentPage={consumeContext.currentPage === 'default' ? 'ListNotes' : consumeContext.currentPage} />
-
+      <Loader />
     </div>
   );
 }

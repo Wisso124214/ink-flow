@@ -1,8 +1,13 @@
 import React from 'react';
 import './PopUpNote.css';
 import Tooltip from '../tooltip/Tooltip';
+import axios from 'axios';
+import config from '@src/config/config.js';
+import { getUserInfo } from '@src/utils/Utils.js';
 
-export default function PopUpNote({ showPopUp, setShowPopUp, selectedNote, hyphenText }) {
+const { BACKEND_URL } = config;
+
+export default function PopUpNote({ showPopUp, setShowPopUp, selectedNote, hyphenText, setNotesData }) {
   
   const isLeavingStartTags = false;
 
@@ -12,6 +17,26 @@ export default function PopUpNote({ showPopUp, setShowPopUp, selectedNote, hyphe
   const charsToHypenText = 29;
   const cooldownTime = 300;
 
+  const dataMenu = [
+    {
+      title: 'Delete note',
+      action: async () => {
+        if (selectedNote && selectedNote._id) {
+          await axios.delete(`${BACKEND_URL}/delete-note/${selectedNote._id}`)
+          .then(() => {
+            setNotesData(null);
+            setShowPopUp(false);
+            setIsEditing(false);
+          })
+          .catch((error) => {
+            console.error('Error deleting note:', error);
+          });
+        }
+      }
+    }
+  ]
+
+  const [isNoteMenuOpen, setIsNoteMenuOpen] = React.useState(false);
   const [lastShortcutTime, setLastShortcutTime] = React.useState(new Date().getTime());
   const [characterCount, setCharacterCount] = React.useState(0);
   const [versionsEditions, setVersionsEditions] = React.useState([{ content: '', date: new Date().toLocaleString() }]);
@@ -39,10 +64,41 @@ export default function PopUpNote({ showPopUp, setShowPopUp, selectedNote, hyphe
     }
   }, [lastShortcutTime, cooldownTime, versionSelected]);
 
-  const handleCloseNote = React.useCallback(() => {
+  const handleCloseNote = React.useCallback(async () => {
+    setIsNoteMenuOpen(false);
     setShowPopUp(false);
     setIsEditing(false);
-  }, [setShowPopUp]);
+
+    if (selectedNote) {
+      if (selectedNote._id) {
+        await axios.put(`${BACKEND_URL}/update-note/${selectedNote._id}`, selectedNote)
+        .catch((error) => {
+          console.error('Error updating note:', error);
+        });
+
+      } else {
+        const username = localStorage.getItem('username');
+        if (!username) {
+          console.error('Username not found in localStorage');
+          return;
+        }
+
+        const infoUser = await getUserInfo(username);
+
+        if (!infoUser || !infoUser.id_user) {
+          console.error('User info not found');
+          return;
+        }
+
+        await axios.post(`${BACKEND_URL}/post-note`, { ...selectedNote, user_id: infoUser.id_user })
+        .catch((error) => {
+          console.error('Error creating note:', error);
+        });
+      }
+      
+      setNotesData(null);
+    }
+  }, [setShowPopUp, selectedNote, setNotesData]);
 
   React.useEffect(() => {
     if (selectedNote) {
@@ -166,6 +222,7 @@ export default function PopUpNote({ showPopUp, setShowPopUp, selectedNote, hyphe
   }
 
   const handleClickPopUp = (e) => {
+    setIsNoteMenuOpen(false);
     e.stopPropagation();
 
     const editButtons = document.getElementById('edit-text-buttons');
@@ -522,9 +579,42 @@ export default function PopUpNote({ showPopUp, setShowPopUp, selectedNote, hyphe
               <Tooltip text='Redo (Ctrl + Y)' >
                 <svg onClick={handleRedo} className='redo' width="15" height="15" style={{transform: 'scaleX(-1)'}} viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.85355 2.14645C5.04882 2.34171 5.04882 2.65829 4.85355 2.85355L3.70711 4H9C11.4853 4 13.5 6.01472 13.5 8.5C13.5 10.9853 11.4853 13 9 13H5C4.72386 13 4.5 12.7761 4.5 12.5C4.5 12.2239 4.72386 12 5 12H9C10.933 12 12.5 10.433 12.5 8.5C12.5 6.567 10.933 5 9 5H3.70711L4.85355 6.14645C5.04882 6.34171 5.04882 6.65829 4.85355 6.85355C4.65829 7.04882 4.34171 7.04882 4.14645 6.85355L2.14645 4.85355C1.95118 4.65829 1.95118 4.34171 2.14645 4.14645L4.14645 2.14645C4.34171 1.95118 4.65829 1.95118 4.85355 2.14645Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
               </Tooltip>
-              <Tooltip text='Menu (Ctrl + M)' >
-                <svg className='menu' width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.625 2.5C8.625 3.12132 8.12132 3.625 7.5 3.625C6.87868 3.625 6.375 3.12132 6.375 2.5C6.375 1.87868 6.87868 1.375 7.5 1.375C8.12132 1.375 8.625 1.87868 8.625 2.5ZM8.625 7.5C8.625 8.12132 8.12132 8.625 7.5 8.625C6.87868 8.625 6.375 8.12132 6.375 7.5C6.375 6.87868 6.87868 6.375 7.5 6.375C8.12132 6.375 8.625 6.87868 8.625 7.5ZM7.5 13.625C8.12132 13.625 8.625 13.1213 8.625 12.5C8.625 11.8787 8.12132 11.375 7.5 11.375C6.87868 11.375 6.375 11.8787 6.375 12.5C6.375 13.1213 6.87868 13.625 7.5 13.625Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
+              <Tooltip 
+                text='Menu (Ctrl + M)' 
+                container_props={{
+                  onClick: (e) => {
+                    e.stopPropagation();
+                    setIsNoteMenuOpen(!isNoteMenuOpen);
+                  }
+                }}
+              >
+                <svg className='menus' width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.625 2.5C8.625 3.12132 8.12132 3.625 7.5 3.625C6.87868 3.625 6.375 3.12132 6.375 2.5C6.375 1.87868 6.87868 1.375 7.5 1.375C8.12132 1.375 8.625 1.87868 8.625 2.5ZM8.625 7.5C8.625 8.12132 8.12132 8.625 7.5 8.625C6.87868 8.625 6.375 8.12132 6.375 7.5C6.375 6.87868 6.87868 6.375 7.5 6.375C8.12132 6.375 8.625 6.87868 8.625 7.5ZM7.5 13.625C8.12132 13.625 8.625 13.1213 8.625 12.5C8.625 11.8787 8.12132 11.375 7.5 11.375C6.87868 11.375 6.375 11.8787 6.375 12.5C6.375 13.1213 6.87868 13.625 7.5 13.625Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
               </Tooltip>
+              {isNoteMenuOpen && (
+                <div 
+                  className='menu'
+                  text-color='var(--text-color-light)'
+                  style={{
+                    '--background-hover': 'black',
+                    fontSize: '1rem',
+                    fontWeight: '500',
+                  }}
+                >
+                  {dataMenu.map((item, index) => (
+                    <div
+                      key={index}
+                      className='menu-item'
+                      onClick={async () => {
+                        await item.action();
+                        // item.title === 'Log out' && window.location.reload();
+                      }}
+                    >
+                      {item.icon}
+                      <span className='menu-title'>{item.title}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </>
           : <>
@@ -553,7 +643,7 @@ export default function PopUpNote({ showPopUp, setShowPopUp, selectedNote, hyphe
 
         <div className='character-count'>{characterCount} / {maxCharacters}</div>
         <div className='note-details'>
-          <span>{selectedNote?.date}</span>
+          <span>{selectedNote?.createdAt?.split('T')[0]}</span>
           <span>{selectedNote?.content.length} characters</span>
         </div>
 

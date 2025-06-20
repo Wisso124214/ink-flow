@@ -5,10 +5,12 @@ FRONT END
   - Arreglar offset (cuando elimine un tag, debo retornar un objeto con las posiciones del tag eliminado para corregir el offset)
   - Agregar un espacio cuando se vaya a añadir un tag sin texto seleccionado, para no interrumpir el texto
   
-  - Crear y eliminar notas (local y luego petición)
   - Cambiar colores notas (predefinidos + picker html)
-  - Tema claro y oscuro
+  - Tema claro y oscuro (desacoplar black y white al index.css como var)
+  - Manualmente arrastrar y cambiar el orden de las notas
+  - Cuando se haga clic fuera del menu del avatar y este esté abierto, cerrarlo
 
+✔✔ Crear y eliminar notas (local y luego petición)
 ✔✔ Tooltip edit buttons
 ✔✔ Añadir atajos del teclado para el estilo del texto y para cambiar editar/visualizar modo
 ✔✔ Añadir botones de deshacer y rehacer y buscar cómo funciona eso para poder deshacer luego de colocar un tag

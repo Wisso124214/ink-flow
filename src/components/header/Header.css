@@ -87,13 +87,16 @@
   border-radius: 0.5rem;
   border: 2px solid var(--secondary-color); 
   box-shadow: 0 0 10px 1px var(--background-color);
+  color: attr(text-color, var(--text-color-dark));
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .menu-title {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: inherit;
+  font-weight: inherit;
   padding: 0.5rem;
-  color: var(--text-color-dark);
+  color: inherit;
 }
 
 .menu-item {
@@ -102,13 +105,14 @@
   flex-direction: row;
   align-items: center;
   padding: 0 0.7rem;
-  color: var(--text-color-dark);
+  color: inherit;
   cursor: pointer;  
   margin: 0 0.7rem;
+  user-select: none;
 }
 
 .menu-item:hover {
-  background-color: color-mix(in srgb, var(--primary-color) 85%, white);
+  background-color: color-mix(in srgb, var(--primary-color) 85%, var(--background-hover, white));
   border-radius: 0.5rem;
 }
 
