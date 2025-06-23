@@ -5,8 +5,10 @@ FRONT END
   - Arreglar offset (cuando elimine un tag, debo retornar un objeto con las posiciones del tag eliminado para corregir el offset)
   - Agregar un espacio cuando se vaya a añadir un tag sin texto seleccionado, para no interrumpir el texto
   
+  - Seleccionar en configuración el formato de la fecha (solo para mostrarla. DD-MM, MM-DD, DD-MM-AA, DD-MM-AAAA...)
   - Cambiar colores notas (predefinidos + picker html)
   - Tema claro y oscuro (desacoplar black y white al index.css como var)
+  - Cambiar manualmente la cantidad de columnas de notas (mínimo 1, máximas 4)
   - Manualmente arrastrar y cambiar el orden de las notas
   - Cuando se haga clic fuera del menu del avatar y este esté abierto, cerrarlo
 

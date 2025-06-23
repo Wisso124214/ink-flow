@@ -76,13 +76,13 @@ export default function PopUpNote({ showPopUp, setShowPopUp, selectedNote, hyphe
           console.error('Error updating note:', error);
         });
 
-      } else {
+      } else if (selectedNote.content) {
         const username = localStorage.getItem('username');
         if (!username) {
           console.error('Username not found in localStorage');
           return;
         }
-
+        
         const infoUser = await getUserInfo(username);
 
         if (!infoUser || !infoUser.id_user) {

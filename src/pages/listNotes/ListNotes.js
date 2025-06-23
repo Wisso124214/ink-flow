@@ -32,19 +32,13 @@ export default function ListNotes(children) {
 
   React.useEffect(() => {
     (async () => {
-      if (notesData === null) {
+      const username = localStorage.getItem('username');
+
+      if (notesData === null && username) {
         setLoading(true);
         await axios.get(`${BACKEND_URL}/get-notes`)
         .then(async (response) => {
           if (response.data && response.data.length > 0) {
-            
-            const username = localStorage.getItem('username');
-
-            if (!username) {
-              console.error('Username not found in localStorage');
-              return;
-            }
-
             const infoUser = await getUserInfo(username);
 
             if (!infoUser || !infoUser.id_user) {

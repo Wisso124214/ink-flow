@@ -4,6 +4,7 @@ import Header from './components/header/Header';
 import Navigation from './components/navigation/Navigation';
 import { AppContext } from './AppContext';
 import Loader from './components/loader/Loader';
+import PopUpMessage from './components/popUpMessage/PopUpMessage';
 
 /**
  * 
@@ -14,7 +15,7 @@ import Loader from './components/loader/Loader';
  */
 
 function App() {
-  let consumeContext = React.useContext(AppContext);
+  const consumeContext = React.useContext(AppContext);
   const { setType, type } = consumeContext;
 
   const allTypes = [
@@ -33,6 +34,7 @@ function App() {
       <Header setType={setType} allTypes={allTypes} type={type} />
       <Navigation pages={pages} currentPage={consumeContext.currentPage === 'default' ? 'ListNotes' : consumeContext.currentPage} />
       <Loader />
+      <PopUpMessage />
     </div>
   );
 }

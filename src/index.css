@@ -65,3 +65,37 @@ t {
     margin-left: 0.2em;
   }
 }
+
+.default-button {
+  border-radius: 1rem;
+  padding: 0.45rem 1rem;
+  margin-top: 1rem;
+  color: var(--secondary-color);
+  border: 3px transparent solid;
+  font-size: 1rem;
+  color: var(--text-color-light);
+  font-weight: 700;
+  cursor: pointer;
+  width: 40%;
+  min-width: 100px;
+  max-width: 125px;
+  margin-bottom: 0;
+}
+
+.default-button {
+  background-color: var(--text-color-light);
+  color: var(--primary-color);
+}
+
+.default-button:hover, .default-button:focus {
+  outline: none;
+  background-color: color-mix(in srgb, var(--text-color-light) 80%, transparent);
+}
+
+.default-button:focus {
+  border: 3px solid var(--text-color-light);
+}
+
+.default-button:active {
+  background-color: color-mix(in srgb, var(--text-color-light) 70%, transparent);
+}

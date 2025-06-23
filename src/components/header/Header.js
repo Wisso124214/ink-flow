@@ -3,11 +3,14 @@ import logo from '@assets/logo-bg.jpg';
 import React from 'react';
 import axios from 'axios';
 import config from '@src/config/config.js';
+import { AppContext } from '@src/AppContext';
 import { getInfo, fetchUserInfo, getUserInfo } from '@src/utils/Utils.js';
 
 const { BACKEND_URL } = config;
 
 export default function Header(children) {
+
+  const { setPopUpMessage } = React.useContext(AppContext);
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [username, setUsername] = React.useState(localStorage.getItem('username') || '');
@@ -38,6 +41,9 @@ export default function Header(children) {
             id_user: infoUser.id_user || '',
           })
           .then(async (response) => {
+            localStorage.removeItem('username');
+            
+            setUsername('');
             const info = await getInfo();
 
             if (info) {
@@ -61,16 +67,36 @@ export default function Header(children) {
     const urlParams = new URLSearchParams(window.location.search);
     const usernameParam = urlParams.get('username');
 
-    if (!username || (usernameParam && username !== usernameParam)) {
-      setUsername(usernameParam);
-      localStorage.setItem('username', usernameParam);
-      window.location = `${window.location.origin}/`;
+    if (!usernameParam && !username) {
+      setPopUpMessage({
+        isVisible: true,
+        content: 'Please login or register to continue.',
+        buttonText: 'Close',
+        onClose: async () => {
+          setPopUpMessage(prev => ({ ...prev, isVisible: false }));
+          const info = await getInfo();
+
+          if (info) {
+            window.location = info.FRONTEND_URL;
+          } else {
+            console.error('No info found after logout');
+          }
+        },
+      })
     }
 
-    if (usernameParam && username === usernameParam)
-      window.location = `${window.location.origin}/`;
+    if (username || usernameParam) {
+      if ((usernameParam && username !== usernameParam)) {
+        setUsername(usernameParam);
+        localStorage.setItem('username', usernameParam);
+        window.location = `${window.location.origin}/`;
+      }
 
-    fetchUserInfo(username);
+      if (usernameParam && username === usernameParam)
+        window.location = `${window.location.origin}/`;
+
+      fetchUserInfo(username);
+    }
   }, []);
 
   return (

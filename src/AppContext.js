@@ -7,6 +7,12 @@ function AppContextProvider() {
   const [currentPage, setCurrentPage] = React.useState('default');
   const [type, setType] = React.useState('default');
   const [loading, setLoading] = React.useState(false);
+  const [popUpMessage, setPopUpMessage] = React.useState({
+    isVisible: false,
+    content: '',
+    buttonText: 'Close',
+    onClose: () => setPopUpMessage(prev => ({ ...prev, isVisible: false })),
+  });
 
   let context = {
     currentPage,
@@ -15,6 +21,8 @@ function AppContextProvider() {
     setType,
     loading,
     setLoading,
+    popUpMessage,
+    setPopUpMessage,
   }
 
   return (
